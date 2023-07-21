@@ -1,0 +1,26 @@
+###
+GET http://127.0.0.1:8000/users/
+
+###
+POST http://127.0.0.1:8000/users/
+Content-Type: application/json
+
+{
+    "email": "polyanin_sd@mail.ru",
+    "password": "suprim12",
+    "country": "Russia",
+    "username": "LolSupra1"
+}
+
+###
+POST http://127.0.0.1:8000/auth/
+Content-Type: application/json
+
+{
+    "password": "suprim12",
+    "username": "LolSupra1"
+}
+
+###
+GET http://127.0.0.1:8000/users/
+Authorization: Token fe7f7eb40c7180930b76930493f00701867489f5
