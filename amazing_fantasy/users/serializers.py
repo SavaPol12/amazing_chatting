@@ -1,7 +1,8 @@
-from rest_framework.serializers import ModelSerializer
-from .models import Note, User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
+
+from .models import Note, User
 
 
 class UserSerializer(ModelSerializer):
@@ -21,16 +22,17 @@ class UserSerializer(ModelSerializer):
         except serializers.ValidationError as exc:
             user.delete()
             raise exc
+
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'username', 'country', 'email', 'password']
+        fields = ['id', 'first_name', 'username',
+                  'country', 'email', 'password']
 
 
 class NoteSerializer(ModelSerializer):
-    author = UserSerializer()
+    author = UserSerializer(read_only=True)
+    pub_date = serializers.ReadOnlyField()
+
     class Meta:
         model = Note
-        fields = '__all__'
-
-
-
+        fields = ['id', 'pub_date', 'author', 'text']
