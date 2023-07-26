@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Note, User
-from .permissions import IsAuthorOrReadOnly
+from .permissions import IsAuthorOrReadOnly, UserPermission
 from .serializers import NoteSerializer, UserSerializer
 
 
@@ -20,9 +20,16 @@ class NoteViewSet(ModelViewSet):
 
 
 class UserViewSet(ModelViewSet):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthorOrReadOnly, UserPermission]
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        country: str = self.request.query_params.get('country')
+        if country:
+            country = country.title()
+            queryset = queryset.filter(country__istartswith=country)
+        return queryset
 
     @action(
         methods=['get', ],

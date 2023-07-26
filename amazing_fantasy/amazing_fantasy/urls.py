@@ -9,12 +9,12 @@ from users.views import NoteViewSet, UserViewSet
 router = SimpleRouter()
 router.register(
     'users',
-    UserViewSet
+    UserViewSet,
+    basename='users'
 )
 router.register(
     'notes',
     NoteViewSet,
-
 )
 
 urlpatterns = [

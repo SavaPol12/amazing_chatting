@@ -12,3 +12,6 @@ class Note(models.Model):
     text = models.TextField()
     author = models.ForeignKey(
         to=User, on_delete=models.CASCADE, related_name='notes')
+
+    class Meta:
+        ordering = ['-pub_date']
